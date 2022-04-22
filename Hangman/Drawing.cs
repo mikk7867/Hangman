@@ -4,7 +4,7 @@
     {
         public static void Banner()
         {
-            //tegner banneret
+            //banner time
             //h .1
             Console.SetCursorPosition(6, 1);
             Console.Write("_");
@@ -104,8 +104,7 @@
         }
         public static void Galge()
         {
-            //tegner galgen når programmet starter
-            //gallow construction.
+            //gallow construction :D
             Console.SetCursorPosition(6, 10);
             Console.Write("________");
             Console.SetCursorPosition(5, 11);
@@ -140,20 +139,20 @@
         }
         public static void Right(char input, List<int> index, int length)
         {
+            //correct input
             for (int i = 0; i < length; i++)
             {
                 if (index.Contains(i))
                 {
-                    //setcoursor baseret på i og print char input (som uppercase?)
+                    //prints the correct letter (at the correct placement)
                     Console.SetCursorPosition((i * 2) + 5, 20);
                     Console.Write(input.ToString().ToUpper());
                 }
             }
-            //hvis man skriver rigtigt input
         }
         public static void Wrong(int count, char input)
         {
-            //hvis man skriver forkert input
+            //wrong input
             if (count == 1)
             {
                 Console.SetCursorPosition(13, 12);
@@ -192,13 +191,9 @@
             else if (count == 8)
             {
                 Console.SetCursorPosition(13, 15);
-                Console.Write("'");//that's a *****
+                Console.Write("'");//that's a penis :O
             }
-            else
-            {
-                //fejl??? how did we get here
-            }
-            //føjer til liste med forkerte bogstaver
+            //prints wrong letters (in a smart way)
             Console.SetCursorPosition(38 + (count * 2), 11);
             Console.Write(input.ToString().ToUpper());           
         }

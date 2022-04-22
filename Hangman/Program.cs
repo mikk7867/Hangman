@@ -6,19 +6,19 @@
         {
             while (true)
             {
-                //variabler og test
+                //variables
                 int count = 0;
                 char input;
                 List<char> tried = new();
                 string solution;
-                //tegner banneret?
+                //draws the banner
                 Drawing.Banner();
-                //finder frem til et ord der skal gættes
+                //instructions
                 Console.SetCursorPosition(4, 11);
-                Console.Write("Tryk '1' for at få et tilfældigt ord");
+                Console.Write("Press '1' for a random word to guess");
                 Console.SetCursorPosition(4, 12);
-                Console.Write("Tryk '2' for manuelt at indtaste et ord (2-player)");
-                //input -> skriv ord selv eller få et tilfældigt
+                Console.Write("Press '2' to manually write a word (2-player)");
+                //input -> chooce random word or self-written word to guess
                 do
                 {
                     Console.SetCursorPosition(4, 14);
@@ -35,57 +35,58 @@
                     }
                     else
                     {
-                        //nececary fix to remove red underline, has no functionality
+                        //nececary fix to remove red underline, has no functionality :P
                         solution = "";
                         //this code has functionality
                         Console.SetCursorPosition(4, 13);
                         Console.Write("Invalid input, try again");
-
                     }
                 } while (input != '1' && input != '2');
                 char[] word = new char[solution.Length], 
                     answer = new char[solution.Length];
-                //smider ordet ind i et array ét tegn ad gangen så det nemmere kan sammenlignes
+                //string -> char-array (to make it more easilly comparable)
                 for (int i = 0; i < solution.Length; i++)
                 {
                     word[i] = solution[i];
                 }
-                //reset graphics
+                //reset graphics, banner and gallow
                 Console.Clear();
                 Drawing.Banner();
-                //tegner selve galgen og layoutet
                 Drawing.Galge();
-                //tegner ord-feltet
+                //space for the word to appear as it is guessed
                 Drawing.WordSpace(word.Length);
-                //loop så længe spiller er i gang 
+                //loop as long as the game i not won or lost 
                 while (!word.SequenceEqual(answer) && count < 8)
                 {
-                    //cursorposition?
+                    //cursorposition for input, and removal of character from console
                     Console.SetCursorPosition(4, 23);
                     input = Console.ReadKey().KeyChar;
                     Console.SetCursorPosition(4, 23);
                     Console.Write(" ");
-                    //hvis man taster '#' for at afslutte
+                    Console.SetCursorPosition(6, 22);
+                    Console.Write(new String(' ', Console.BufferWidth));
+                    Console.SetCursorPosition(6, 22);
+                    //'#' to forfeit (i should write instructions for that somewhere)
                     if (input == '#')
                     {
                         count = 8;
                     }
-                    //hvis man taster et ikke-bogstav
+                    //if the player presses a non-letter
                     else if (!Char.IsLetter(input))
                     {
-                        //fejlmeddelelse
-                        Console.WriteLine("fejl 1");
+                        //error message
+                        Console.WriteLine("That's not a letter, try again");
                     }
-                    //hvis man allerede har indtastet bogstavet
+                    //if the player presses an already used letter
                     else if (tried.Contains(input))
                     {
-                        //fejlmeddelelse
-                        Console.WriteLine("fejl 2");
+                        //error message
+                        Console.WriteLine("You've already used that one, try another");
                     }
-                    //hvis man taster et bogstav det er med i ordet
+                    //if the player guesses a letter correct
                     else if (word.Contains(input))
                     {
-                        //føjer rigtige bogstaver til array og tager værdier med til at pinpointe printet
+                        //adds the letter to the array to match the word and to the list of used letters
                         tried.Add(input);
                         List<int> index = new();
                         for (int i = 0; i < word.Length; i++)
@@ -96,37 +97,39 @@
                                 index.Add(i);
                             }
                         }
-                        //overskriver bogstavet de rigtige steder
+                        //writes the letter on the correct spaces
                         Drawing.Right(input, index, word.Length);
                     }
-                    //hvis man taster et bogstav der ikke er med i ordet
+                    //if the player makes a wrong guess
                     else
                     {
-                        //føjer forkert bogstav til liste og tegner mere af galgen
+                        //adds the letter to the list of wrong letter and the list of used letters
                         count++;
                         tried.Add(input);
                         Drawing.Wrong(count, input);
                     }
                 }
-                //setcursor under spilområdet
+                //setcursor below game-area
                 Console.SetCursorPosition(4, 23);
                 if (count >= 8)
                 {
-                    //du har tabt. evt print ordet?
-                    Console.Write("Du har tabt");
+                    //lose
+                    Console.Write("- GAME OVER -");
                     Console.SetCursorPosition(4, 24);
                     Console.Write($"The word was '{solution}'");
                 }
                 else
                 {
-                    //du har vundet, yada yada
-                    Console.Write("Du har vundet");
+                    //win
+                    Console.Write("- VICTORY -");
+                    Console.SetCursorPosition(4, 24);
+                    Console.Write("You got it right!");
                 }
-                //tag input til og man vil fortsætte, hvis input er en bestemt værdi -> sluk programmet
+                //option to play again (enter) or shut the program off
                 Console.SetCursorPosition(4, 26);
-                Console.Write("Hvis du ønsker at spille igen, tast 'enter'");
+                Console.Write("If you want to play again, press 'enter'");
                 Console.SetCursorPosition(4, 27);
-                Console.Write("Ellers tryk på en anden tast for at afslutte");
+                Console.Write("Otherwise press any other key to shut down");
                 if (Console.ReadKey().Key != ConsoleKey.Enter)
                 {
                     System.Environment.Exit(0);
